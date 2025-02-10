@@ -1,4 +1,8 @@
 # *kapde* - Your one-stop e-commerce store
+[![GitHub stars](https://img.shields.io/github/stars/viveknaskar/kapde)](https://github.com/viveknaskar/kapde/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/viveknaskar/kapde)](https://github.com/viveknaskar/kapde)
+[![open issues](https://img.shields.io/github/issues/viveknaskar/kapde)](https://github.com/viveknaskar/kapde/issues)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 
 Kapde is a modern and stylish e-commerce website for clothing and accessories. It features categories for Men, Women, Accessories, and New Arrivals, ensuring a seamless shopping experience. 
 This small project is a work-in-progress for experiments.
