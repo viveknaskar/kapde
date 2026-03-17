@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import CategorySection from './components/CategorySection';
@@ -50,6 +50,20 @@ const allCategories = [
 function App() {
   const [cartItems, setCartItems] = useState<number[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   const handleAddToCart = (product: Product) => {
     setCartItems((prev) => [...prev, product.id]);
@@ -63,11 +77,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <Navbar
         cartCount={cartItems.length}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
       />
       <Hero />
       {allCategories.map(({ title, products }) => (
