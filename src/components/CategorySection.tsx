@@ -26,7 +26,7 @@ const CategorySection = ({ title, products, onAddToCart }: CategorySectionProps)
               <div key={product.id} className="group">
                 <div className="relative overflow-hidden">
                   <img
-                    src={product.image}
+                    src={`${import.meta.env.BASE_URL}${product.image.replace(/^\//, '')}`}
                     alt={product.name}
                     className="w-full h-80 object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />

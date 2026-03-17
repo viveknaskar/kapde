@@ -7,7 +7,7 @@ const Hero = () => {
     <div className="relative h-screen">
       <div className="absolute inset-0">
         <img
-          src="/images/home.jpg"
+          src={`${import.meta.env.BASE_URL}images/home.jpg`}
           alt="Hero background"
           className="w-full h-full object-cover"
         />
