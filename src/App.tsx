@@ -4,6 +4,8 @@ import Hero from './components/Hero';
 import CategorySection from './components/CategorySection';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
+import CartDrawer, { CartItem } from './components/CartDrawer';
+import CheckoutModal from './components/CheckoutModal';
 
 interface Product {
   id: number;
@@ -48,11 +50,11 @@ const allCategories = [
 ];
 
 function App() {
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+  const [cartOpen, setCartOpen] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -66,8 +68,47 @@ function App() {
   }, [darkMode]);
 
   const handleAddToCart = (product: Product) => {
-    setCartItems((prev) => [...prev, product.id]);
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.product.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { product, quantity: 1 }];
+    });
   };
+
+  const handleIncrement = (productId: number) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.product.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const handleDecrement = (productId: number) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item.product.id === productId ? { ...item, quantity: item.quantity - 1 } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const handleRemove = (productId: number) => {
+    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
+  };
+
+  const handleCheckoutSuccess = () => {
+    setCartItems([]);
+    setCheckoutOpen(false);
+  };
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const filterProducts = (products: Product[]) => {
     if (!searchQuery.trim()) return products;
@@ -79,11 +120,12 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <Navbar
-        cartCount={cartItems.length}
+        cartCount={cartCount}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode((prev) => !prev)}
+        onCartClick={() => setCartOpen(true)}
       />
       <Hero />
       {allCategories.map(({ title, products }) => (
@@ -96,6 +138,26 @@ function App() {
       ))}
       <Newsletter />
       <Footer />
+
+      <CartDrawer
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+        cartItems={cartItems}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+        onRemove={handleRemove}
+        onCheckout={() => {
+          setCartOpen(false);
+          setCheckoutOpen(true);
+        }}
+      />
+
+      <CheckoutModal
+        isOpen={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        cartItems={cartItems}
+        onSuccess={handleCheckoutSuccess}
+      />
     </div>
   );
 }

@@ -7,10 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Frontend build output
 node_modules
 dist
 dist-ssr
-*.local
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +27,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Java / Maven (backend)
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war

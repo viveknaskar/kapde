@@ -7,9 +7,10 @@ interface NavbarProps {
   onSearchChange: (query: string) => void;
   darkMode: boolean;
   onToggleDarkMode: () => void;
+  onCartClick: () => void;
 }
 
-const Navbar = ({ cartCount, searchQuery, onSearchChange, darkMode, onToggleDarkMode }: NavbarProps) => {
+const Navbar = ({ cartCount, searchQuery, onSearchChange, darkMode, onToggleDarkMode, onCartClick }: NavbarProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -55,6 +56,7 @@ const Navbar = ({ cartCount, searchQuery, onSearchChange, darkMode, onToggleDark
               <User className="h-5 w-5 text-gray-600 dark:text-gray-300" />
             </button>
             <button
+              onClick={onCartClick}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
               aria-label="Cart"
             >
