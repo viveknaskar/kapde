@@ -1,4 +1,8 @@
 const Hero = () => {
+  const handleShopNow = () => {
+    document.getElementById('new-arrivals')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="relative h-screen">
       <div className="absolute inset-0">
@@ -13,7 +17,10 @@ const Hero = () => {
         <div className="text-white">
           <h1 className="text-5xl font-bold mb-4">New Season Arrivals</h1>
           <p className="text-xl mb-8">Discover the latest trends in fashion</p>
-          <button className="bg-white text-black px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
+          <button
+            onClick={handleShopNow}
+            className="bg-white text-black px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors"
+          >
             Shop Now
           </button>
         </div>
